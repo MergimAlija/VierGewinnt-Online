@@ -28,13 +28,6 @@ io.sockets.on('connection',function(socket){
 	socket.on('disconnect', function(){
 		delete SOCKET_LIST[socket.id];
 	});
-
-	socket.on('sendMsgToServer',function(data){
-		var playerName = (""+socket.id).slice(1,2);
-		for(var i in SOCKET_LIST){
-			SOCKET_LIST[i].emit('addToChat',playerName+': '+data);
-		}
-	});
 });
 
 setInterval(function(){
