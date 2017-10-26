@@ -28,22 +28,29 @@ io.sockets.on('connection',function(socket){
 	socket.on('disconnect', function(){
 		delete SOCKET_LIST[socket.id];
 	});
+
+	socket.on('sendMsgToServer',function(data){
+		for(var i in SOCKET_LIST){
+			SOCKET_LIST[i].emit('addToChat', data);
+		}
+
+	});
 });
 
 setInterval(function(){
 	var pack = [];
 	for (var i in SOCKET_LIST){
 		var socket = SOCKET_LIST[i];
-		socket.x++;
-		socket.y++;
+		
 
 		pack.push({
 			x:socket.y,
 			y:socket.y
 		});
+
+
 	}
 	for (var i in SOCKET_LIST){
 		socket.emit('newPositions',pack);
 	}
 },1000/25);
-

@@ -1,23 +1,42 @@
-<h1>test</h1>
-<canvas id="ctx" width="500" height="500" style="border:1px solid #000000;"></canvas>
+<div id="chat-text" style="width:500px; height:100px;overflow-y:scroll">
+	<div> Hello!</div>
+</div>
+
+<form id="chat-form"> 
+	<input id="chat-input" type="text" style="width:500px"></input>
+</form>
+
+
+<p id="demo"> </p>
+
 <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 <script>
+	var chatText = document.getElementById('chat-text');
+	var chatInput = document.getElementById('chat-input');
+	var chatForm = document.getElementById('chat-form');
 
-	var ctx = document.getElementById("ctx").
-	getContext("2d");
-	ctx.font = '30px Arial';
+	var items = [
+				  [0, 0],
+				  [0, 0]
+				];
+
+	
+	document.getElementById("demo").innerHTML =items;
 
 	var socket = io();
 
-
-	socket.on('newPositions',function(data){
-		ctx.clearRect(0,0,500,500);
-
-		for(var i = 0; i< data.length; i++){
-			ctx.fillText('P',data[i].x,data[i].y);
-		}
-		
+	socket.on('addToChat',function(data){
+		chatText.innerHTML += '<div>' + data + '<div>';
 	});
+
+	chatForm.onsubmit = function(e){
+		e.preventDefault();
+		socket.emit('sendMsgToServer',chatInput.value);
+		chatInput.value = '';
+	}
+
+	
+
 
 </script>
 
