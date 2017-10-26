@@ -1,0 +1,15 @@
+{
+  "name": "fungame",
+  "version": "1.0.0",
+  "description": "a funny game",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "funny",
+    "game"
+  ],
+  "author": "mergim alija",
+  "license": "ISC"
+}
