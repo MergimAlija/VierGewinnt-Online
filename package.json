@@ -11,5 +11,18 @@
     "game"
   ],
   "author": "mergim alija",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.2",
+    "socket.io": "^2.0.4"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MergimAlija/VierGewinnt-Online.git"
+  },
+  "bugs": {
+    "url": "https://github.com/MergimAlija/VierGewinnt-Online/issues"
+  },
+  "homepage": "https://github.com/MergimAlija/VierGewinnt-Online#readme"
 }
