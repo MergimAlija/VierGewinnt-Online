@@ -1,3 +1,12 @@
+<style>
+table{
+	border:1px;
+}
+td{
+	height: 50px;
+	width: 50px;
+}
+</style>
 <div id="chat-text" style="width:500px; height:100px;overflow-y:scroll">
 	<div> Hello!</div>
 </div>
@@ -7,7 +16,7 @@
 </form>
 
 
-<p id="demo"> </p>
+<div id="demo"> </div>
 
 <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 <script>
@@ -15,13 +24,38 @@
 	var chatInput = document.getElementById('chat-input');
 	var chatForm = document.getElementById('chat-form');
 
-	var items = [
-				  [0, 0],
-				  [0, 0]
-				];
-
+	var x = new Array(5);
 	
-	document.getElementById("demo").innerHTML =items;
+	for (var i = 0; i < 6; i++) {
+		x[i] = new Array(7);
+	}
+
+	var count;
+	for (var j = 0; j < 6; j++) {
+		for (var k = 0; k < 7; k++) {
+			x[j][k] = "0";
+		}
+	}
+
+	function makeTableHTML(myArray) {
+	    var result = "<table border=1>";
+	    for(var i=0; i<myArray.length; i++) {
+	        result += "<tr>";
+	        for(var j=0; j<myArray[i].length; j++){
+	            result += "<td>"+myArray[i][j]+"</td>";
+	        }
+	        result += "</tr>";
+	    }
+	    result += "</table>";
+
+	    return result;
+	}
+
+	document.getElementById("demo").innerHTML = makeTableHTML(x);
+
+
+
+
 
 	var socket = io();
 
