@@ -1,12 +1,19 @@
-<style>
-table{
-	border:1px;
-}
-td{
-	height: 50px;
-	width: 50px;
-}
-</style>
+<!-- STYLE !-->
+<head>
+	<style>
+		table{
+			border:1px;
+		}
+		td{
+			height: 50px;
+			width: 50px;
+		}
+		</style>
+
+</head>
+
+<!-- HTML !-->
+<body>
 <div id="chat-text" style="width:500px; height:100px;overflow-y:scroll">
 	<div> Hello!</div>
 </div>
@@ -18,12 +25,16 @@ td{
 
 <div id="demo"> </div>
 
+</body>
+
+<!-- SKRIPT !-->
 <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 <script>
 	var chatText = document.getElementById('chat-text');
 	var chatInput = document.getElementById('chat-input');
 	var chatForm = document.getElementById('chat-form');
 
+//INITIALISIERUNG ARRAY
 	var x = new Array(5);
 	
 	for (var i = 0; i < 6; i++) {
@@ -37,6 +48,7 @@ td{
 		}
 	}
 
+//INITIALISIERUNG MACHE AUS ARRAY EINE TABELLE
 	function makeTableHTML(myArray) {
 	    var result = "<table border=1>";
 	    for(var i=0; i<myArray.length; i++) {
@@ -47,16 +59,12 @@ td{
 	        result += "</tr>";
 	    }
 	    result += "</table>";
-
 	    return result;
 	}
 
 	document.getElementById("demo").innerHTML = makeTableHTML(x);
-
-
-
-
-
+	
+//KOMMUNIKATION MIT SERVER
 	var socket = io();
 
 	socket.on('addToChat',function(data){
@@ -68,9 +76,6 @@ td{
 		socket.emit('sendMsgToServer',chatInput.value);
 		chatInput.value = '';
 	}
-
-	
-
 
 </script>
 
