@@ -29,6 +29,7 @@
 
 <!-- SKRIPT !-->
 <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"> </script>
 <script>
 	var chatText = document.getElementById('chat-text');
 	var chatInput = document.getElementById('chat-input');
@@ -50,11 +51,11 @@
 
 //INITIALISIERUNG MACHE AUS ARRAY EINE TABELLE
 	function makeTableHTML(myArray) {
-	    var result = "<table border=1>";
+	    var result = "<table id='playground' border=1>";
 	    for(var i=0; i<myArray.length; i++) {
 	        result += "<tr>";
 	        for(var j=0; j<myArray[i].length; j++){
-	            result += "<td>"+myArray[i][j]+"</td>";
+	            result += "<td id='allo'>"+myArray[i][j]+"</td>";
 	        }
 	        result += "</tr>";
 	    }
@@ -64,6 +65,30 @@
 
 	document.getElementById("demo").innerHTML = makeTableHTML(x);
 	
+//Gib wert jeder Zelle aus bei KLICK
+
+/*	var items = document.getElementsByTagName('td');
+		for (var i = 0; i <= items.length; i++) {
+		    console.log(items[i]);
+		} */
+
+  var items = document.getElementsByTagName('td');
+  var table = document.getElementById("playground");
+    if (table != null) {
+        for (var i = 0; i < table.rows.length; i++) {
+            for (var j = 0; j < table.rows[i].cells.length; j++)
+            table.rows[i].cells[j].onclick = function () {
+            	console.log(items[i].innerHTML);
+               //tableText(this);
+               socket.emit('door',j+" "+i);
+            };
+        }
+    }
+
+    function tableText(tableCell) {
+        alert(tableCell.innerHTML);
+    }
+
 //KOMMUNIKATION MIT SERVER
 	var socket = io();
 
