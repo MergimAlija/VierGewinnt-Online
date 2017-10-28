@@ -45,7 +45,7 @@
 	var count;
 	for (var j = 0; j < 6; j++) {
 		for (var k = 0; k < 7; k++) {
-			x[j][k] = "0";
+			x[j][k] = j+''+k;
 		}
 	}
 
@@ -66,15 +66,15 @@
 	document.getElementById("demo").innerHTML = makeTableHTML(x);
 	
 //Gib Wert jeder Zelle aus bei KLICK
-
-  var items = document.getElementById('56');
+/*
+  var items = document.getElementsByTagName('td');
+  
   var table = document.getElementById("playground");
     if (table != null) {
         for (var i = 0; i < table.rows.length; i++) {
             for (var j = 0; j < table.rows[i].cells.length; j++)
             table.rows[i].cells[j].onclick = function () {
-            	//console.log(items[i].innerHTML);
-               //tableText(this);
+               items.innerText = '';
                socket.emit('cellClicked',items.innerText);
             };
         }
@@ -82,7 +82,23 @@
 
     function tableText(tableCell) {
         alert(tableCell.innerHTML);
+    } */
+
+var table = document.getElementsByTagName("table")[0];
+var cells = table.getElementsByTagName("td"); // 
+
+for(var i = 0; i < cells.length; i++){
+    // Cell Object
+    var cell = cells[i];
+    // Track with onclick
+    cell.onclick = function(){
+        var cellIndex  = this.cellIndex;  
+        var rowIndex = this.parentNode.rowIndex;
+        socket.emit('cellClicked',table.rows[rowIndex].cells[cellIndex].innerText);
+      //  alert(table.rows[rowIndex].cells[cellIndex].innerText);
     }
+}
+
 
 //KOMMUNIKATION MIT SERVER
 	var socket = io();
@@ -92,7 +108,14 @@
 	});
 
 	socket.on('refreshTable',function(data){
-		items.innerText += "gesetzt";
+			for(var i = 0; i < cells.length; i++){
+			    var cell = cells[i];
+			    cell.onclick = function(){
+			        var cellIndex  = this.cellIndex;  
+			        var rowIndex = this.parentNode.rowIndex;
+			        table.rows[rowIndex].cells[cellIndex].innerText = "X";
+			    }
+			}
 	});
 
 	chatForm.onsubmit = function(e){
