@@ -23,7 +23,14 @@
 </form>
 
 
-<div id="demo"> </div>
+<div id="spiel-feld" style="width:500px; height:100px;overflow-y:scroll">
+</div>
+
+<table id='playground' border=1>
+	<tr>
+		<td></td>
+	</tr>
+</table>
 
 </body>
 
@@ -34,41 +41,11 @@
 	var chatText = document.getElementById('chat-text');
 	var chatInput = document.getElementById('chat-input');
 	var chatForm = document.getElementById('chat-form');
-
-//INITIALISIERUNG ARRAY
-	var x = new Array(5);
-	
-	for (var i = 0; i < 6; i++) {
-		x[i] = new Array(7);
-	}
-
-	var count;
-	for (var j = 0; j < 6; j++) {
-		for (var k = 0; k < 7; k++) {
-			x[j][k] = j+''+k;
-		}
-	}
-
-//INITIALISIERUNG MACHE AUS ARRAY EINE TABELLE
-	function makeTableHTML(myArray) {
-	    var result = "<table id='playground' border=1>";
-	    for(var i=0; i<myArray.length; i++) {
-	        result += "<tr>";
-	        for(var j=0; j<myArray[i].length; j++){
-	            result += "<td id="+i+''+j+">"+myArray[i][j]+"</td>";
-	        }
-	        result += "</tr>";
-	    }
-	    result += "</table>";
-	    return result;
-	}
-
-	document.getElementById("demo").innerHTML = makeTableHTML(x);
+	var spielFeld = document.getElementById('spiel-feld');
 	
 //Gib Wert jeder Zelle aus bei KLICK
-/*
+
   var items = document.getElementsByTagName('td');
-  
   var table = document.getElementById("playground");
     if (table != null) {
         for (var i = 0; i < table.rows.length; i++) {
@@ -82,7 +59,7 @@
 
     function tableText(tableCell) {
         alert(tableCell.innerHTML);
-    } */
+    } 
 
 var table = document.getElementsByTagName("table")[0];
 var cells = table.getElementsByTagName("td"); // 
@@ -103,6 +80,10 @@ for(var i = 0; i < cells.length; i++){
 //KOMMUNIKATION MIT SERVER
 	var socket = io();
 
+	socket.on('init',function(data){
+		spielFeld.innerHTML += '<div>' + data + '</div>';
+	});
+
 	socket.on('addToChat',function(data){
 		chatText.innerHTML += '<div>' + data + '<div>';
 	});
@@ -113,7 +94,7 @@ for(var i = 0; i < cells.length; i++){
 			    cell.onclick = function(){
 			        var cellIndex  = this.cellIndex;  
 			        var rowIndex = this.parentNode.rowIndex;
-			        table.rows[rowIndex].cells[cellIndex].innerText = "X";
+			        table.rows[rowIndex].cells[cellIndex].innerHTML = "<span style='font-size:50px'>"+'X'+"</span>";
 			    }
 			}
 	});
