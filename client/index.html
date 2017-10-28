@@ -14,23 +14,11 @@
 
 <!-- HTML !-->
 <body>
-<div id="chat-text" style="width:500px; height:100px;overflow-y:scroll">
-	<div> Hello!</div>
-</div>
+<div id="chat-text" style="width:500px; height:100px;overflow-y:scroll"></div>
+<form id="chat-form">  <input id="chat-input" type="text" style="width:500px"></input> </form>
 
-<form id="chat-form"> 
-	<input id="chat-input" type="text" style="width:500px"></input>
-</form>
+<div id="spiel-feld" style="width:500px; height:auto;overflow-y:scroll"> </div>
 
-
-<div id="spiel-feld" style="width:500px; height:100px;overflow-y:scroll">
-</div>
-
-<table id='playground' border=1>
-	<tr>
-		<td></td>
-	</tr>
-</table>
 
 </body>
 
@@ -38,52 +26,33 @@
 <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"> </script>
 <script>
+	var socket = io();
+
 	var chatText = document.getElementById('chat-text');
 	var chatInput = document.getElementById('chat-input');
 	var chatForm = document.getElementById('chat-form');
 	var spielFeld = document.getElementById('spiel-feld');
 	
-//Gib Wert jeder Zelle aus bei KLICK
+	//Gib Wert jeder Zelle aus bei KLICK
+	var table = document.getElementsByTagName("table")[0];
+	/*var cells = table.getElementsByTagName("td");  
 
-  var items = document.getElementsByTagName('td');
-  var table = document.getElementById("playground");
-    if (table != null) {
-        for (var i = 0; i < table.rows.length; i++) {
-            for (var j = 0; j < table.rows[i].cells.length; j++)
-            table.rows[i].cells[j].onclick = function () {
-               items.innerText = '';
-               socket.emit('cellClicked',items.innerText);
-            };
-        }
-    }
+	for(var i = 0; i < cells.length; i++){
+	    // Cell Object
+	    var cell = cells[i];
+	    // Track with onclick
+	    cell.onclick = function(){
+	        var cellIndex  = this.cellIndex;  
+	        var rowIndex = this.parentNode.rowIndex;
+	        socket.emit('cellClicked',table.rows[rowIndex].cells[cellIndex].innerText);
+	      //  alert(table.rows[rowIndex].cells[cellIndex].innerText);
+	    }
+	} */
 
-    function tableText(tableCell) {
-        alert(tableCell.innerHTML);
-    } 
-
-var table = document.getElementsByTagName("table")[0];
-var cells = table.getElementsByTagName("td"); // 
-
-for(var i = 0; i < cells.length; i++){
-    // Cell Object
-    var cell = cells[i];
-    // Track with onclick
-    cell.onclick = function(){
-        var cellIndex  = this.cellIndex;  
-        var rowIndex = this.parentNode.rowIndex;
-        socket.emit('cellClicked',table.rows[rowIndex].cells[cellIndex].innerText);
-      //  alert(table.rows[rowIndex].cells[cellIndex].innerText);
-    }
-}
-
-
-//KOMMUNIKATION MIT SERVER
-	var socket = io();
-
+	//KOMMUNIKATION MIT SERVER
 	socket.on('init',function(data){
-		spielFeld.innerHTML += '<div>' + data + '</div>';
-	});
-
+		spielFeld.innerHTML = data;
+	}); 
 	socket.on('addToChat',function(data){
 		chatText.innerHTML += '<div>' + data + '<div>';
 	});

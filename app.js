@@ -13,8 +13,6 @@ app.use('/client', express.static(__dirname + '/client'));
 
 serv.listen(2000);
 console.log("Server started");
-console.log(__dirname);
-
 var SOCKET_LIST = {};
 
 //laedt das Modul und initialisiert alles aus der Library
@@ -38,11 +36,11 @@ io.sockets.on('connection',function(socket){
 
 	//INITIALISIERUNG MACHE AUS ARRAY EINE TABELLE
 	function makeTableHTML(myArray) {
-	    var result = "<table id='playground' border=1>";
+	    var result = "<table border=1>";
 	    for(var i=0; i<myArray.length; i++) {
 	        result += "<tr>";
 	        for(var j=0; j<myArray[i].length; j++){
-	            result += "<td id="+i+''+j+">"+myArray[i][j]+"</td>";
+	            result += "<td>"+myArray[i][j]+"</td>";
 	        }
 	        result += "</tr>";
 	    }
@@ -54,6 +52,7 @@ io.sockets.on('connection',function(socket){
 
 	for(var i in SOCKET_LIST){
 			SOCKET_LIST[i].emit('init', d);
+			SOCKET_LIST[i].emit('addToChat', 'Hello from Server');
 			}
 
 	socket.on('disconnect', function(){
@@ -77,19 +76,4 @@ io.sockets.on('connection',function(socket){
 
 setInterval(function(){
 	
-	/*var pack = [];
-	for (var i in SOCKET_LIST){
-		var socket = SOCKET_LIST[i];
-		
-
-		pack.push({
-			x:socket.y,
-			y:socket.y
-		});
-
-
-	}
-	for (var i in SOCKET_LIST){
-		socket.emit('newPositions',pack);
-	} */
 },1000/25);
