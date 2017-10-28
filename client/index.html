@@ -2,6 +2,8 @@
 <head>
 	<style>
 		table{
+			width: 700px;
+			height:auto;
 			border:1px;
 		}
 		td{
@@ -17,8 +19,8 @@
 <div id="chat-text" style="width:500px; height:100px;overflow-y:scroll"></div>
 <form id="chat-form">  <input id="chat-input" type="text" style="width:500px"></input> </form>
 
-<div id="spiel-feld" style="width:500px; height:auto;overflow-y:scroll"> </div>
-
+<div id="spiel-feld">
+</div>
 
 </body>
 
@@ -26,29 +28,29 @@
 <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"> </script>
 <script>
-	var socket = io();
+var socket = io();
 
 	var chatText = document.getElementById('chat-text');
 	var chatInput = document.getElementById('chat-input');
 	var chatForm = document.getElementById('chat-form');
-	var spielFeld = document.getElementById('spiel-feld');
-	
-	//Gib Wert jeder Zelle aus bei KLICK
-	var table = document.getElementsByTagName("table")[0];
-	/*var cells = table.getElementsByTagName("td");  
+	//var spielFeld = document.getElementById('spiel-feld');
+	var spielFeld = $('#spiel-feld')[0];
 
-	for(var i = 0; i < cells.length; i++){
-	    // Cell Object
-	    var cell = cells[i];
-	    // Track with onclick
-	    cell.onclick = function(){
-	        var cellIndex  = this.cellIndex;  
-	        var rowIndex = this.parentNode.rowIndex;
-	        socket.emit('cellClicked',table.rows[rowIndex].cells[cellIndex].innerText);
-	      //  alert(table.rows[rowIndex].cells[cellIndex].innerText);
-	    }
-	} */
-
+    		//var table = document.getElementsByTagName("table")[0];
+			//var cells = table.getElementsByTagName("td"); 
+			var table = $('#table')[0]; 
+			var cells = $('#td');
+			for(var i = 0; i < cells.length; i++){
+			    // Cell Object
+			    var cell = cells[i];
+			    // Track with onclick
+			    cell.onclick = function(){
+			        var cellIndex  = this.cellIndex;  
+			        var rowIndex = this.parentNode.rowIndex;
+			        socket.emit('cellClicked',table.rows[rowIndex].cells[cellIndex].innerText);
+			        alert(table.rows[rowIndex].cells[cellIndex].innerText);
+			    }
+			} 
 	//KOMMUNIKATION MIT SERVER
 	socket.on('init',function(data){
 		spielFeld.innerHTML = data;
@@ -73,6 +75,8 @@
 		socket.emit('sendMsgToServer',chatInput.value);
 		chatInput.value = '';
 	}
+
+
 
 </script>
 

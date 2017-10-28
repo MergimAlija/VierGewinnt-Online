@@ -36,7 +36,7 @@ io.sockets.on('connection',function(socket){
 
 	//INITIALISIERUNG MACHE AUS ARRAY EINE TABELLE
 	function makeTableHTML(myArray) {
-	    var result = "<table border=1>";
+	    var result = "<table>";
 	    for(var i=0; i<myArray.length; i++) {
 	        result += "<tr>";
 	        for(var j=0; j<myArray[i].length; j++){
@@ -52,7 +52,7 @@ io.sockets.on('connection',function(socket){
 
 	for(var i in SOCKET_LIST){
 			SOCKET_LIST[i].emit('init', d);
-			SOCKET_LIST[i].emit('addToChat', 'Hello from Server');
+			SOCKET_LIST[i].emit('addToChat', 'Hello from Server with ID '+socket.id+'');
 			}
 
 	socket.on('disconnect', function(){
@@ -69,7 +69,6 @@ io.sockets.on('connection',function(socket){
         for(var i in SOCKET_LIST){
 			SOCKET_LIST[i].emit('refreshTable', data);
 			} 
-
     });
 
 });
