@@ -55,7 +55,7 @@
 	    for(var i=0; i<myArray.length; i++) {
 	        result += "<tr>";
 	        for(var j=0; j<myArray[i].length; j++){
-	            result += "<td id='allo'>"+myArray[i][j]+"</td>";
+	            result += "<td id="+i+''+j+">"+myArray[i][j]+"</td>";
 	        }
 	        result += "</tr>";
 	    }
@@ -65,22 +65,22 @@
 
 	document.getElementById("demo").innerHTML = makeTableHTML(x);
 	
-//Gib wert jeder Zelle aus bei KLICK
+//Gib Wert jeder Zelle aus bei KLICK
 
 /*	var items = document.getElementsByTagName('td');
 		for (var i = 0; i <= items.length; i++) {
 		    console.log(items[i]);
 		} */
 
-  var items = document.getElementsByTagName('td');
+  var items = document.getElementById('56');
   var table = document.getElementById("playground");
     if (table != null) {
         for (var i = 0; i < table.rows.length; i++) {
             for (var j = 0; j < table.rows[i].cells.length; j++)
             table.rows[i].cells[j].onclick = function () {
-            	console.log(items[i].innerHTML);
+            	//console.log(items[i].innerHTML);
                //tableText(this);
-               socket.emit('door',j+" "+i);
+               socket.emit('cellClicked',items.innerText);
             };
         }
     }
@@ -94,6 +94,10 @@
 
 	socket.on('addToChat',function(data){
 		chatText.innerHTML += '<div>' + data + '<div>';
+	});
+
+	socket.on('refreshTable',function(data){
+		items.innerText += "gesetzt";
 	});
 
 	chatForm.onsubmit = function(e){

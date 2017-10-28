@@ -31,9 +31,12 @@ io.sockets.on('connection',function(socket){
 			}
 	});
 
-	socket.on('door', function(data){
+	socket.on('cellClicked', function(data){
         console.log('zelle:');
-        console.log(data);
+        //console.log(data);
+        for(var i in SOCKET_LIST){
+			SOCKET_LIST[i].emit('refreshTable', data);
+			} 
 
     });
 
