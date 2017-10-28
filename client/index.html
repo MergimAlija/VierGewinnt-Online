@@ -21,36 +21,43 @@
 
 <div id="spiel-feld">
 </div>
-
 </body>
 
 <!-- SKRIPT !-->
 <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"> </script>
 <script>
+
+
 var socket = io();
+
+var test = function(td){
+    var tdId = td.id; 
+    socket.emit('cellClicked',tdId);	 
+}
 
 	var chatText = document.getElementById('chat-text');
 	var chatInput = document.getElementById('chat-input');
 	var chatForm = document.getElementById('chat-form');
-	//var spielFeld = document.getElementById('spiel-feld');
-	var spielFeld = $('#spiel-feld')[0];
 
-    		//var table = document.getElementsByTagName("table")[0];
-			//var cells = table.getElementsByTagName("td"); 
-			var table = $('#table')[0]; 
-			var cells = $('#td');
+
+	var spielFeld = document.getElementById('spiel-feld');
+	//var spielFeld = $('#spiel-feld')[0];
+
+    var table = document.getElementById("playground");
+	/*var cells = table.getElementsByTagName("td"); 
+			//var table = $('#table'); 
+			//var cells = $('#td');
 			for(var i = 0; i < cells.length; i++){
-			    // Cell Object
 			    var cell = cells[i];
-			    // Track with onclick
 			    cell.onclick = function(){
 			        var cellIndex  = this.cellIndex;  
 			        var rowIndex = this.parentNode.rowIndex;
 			        socket.emit('cellClicked',table.rows[rowIndex].cells[cellIndex].innerText);
 			        alert(table.rows[rowIndex].cells[cellIndex].innerText);
 			    }
-			} 
+			} */
+
 	//KOMMUNIKATION MIT SERVER
 	socket.on('init',function(data){
 		spielFeld.innerHTML = data;
@@ -60,14 +67,7 @@ var socket = io();
 	});
 
 	socket.on('refreshTable',function(data){
-			for(var i = 0; i < cells.length; i++){
-			    var cell = cells[i];
-			    cell.onclick = function(){
-			        var cellIndex  = this.cellIndex;  
-			        var rowIndex = this.parentNode.rowIndex;
-			        table.rows[rowIndex].cells[cellIndex].innerHTML = "<span style='font-size:50px'>"+'X'+"</span>";
-			    }
-			}
+	spielFeld.innerHTML = data;
 	});
 
 	chatForm.onsubmit = function(e){

@@ -36,11 +36,11 @@ io.sockets.on('connection',function(socket){
 
 	//INITIALISIERUNG MACHE AUS ARRAY EINE TABELLE
 	function makeTableHTML(myArray) {
-	    var result = "<table>";
+	    var result = "<table id='playground'>";
 	    for(var i=0; i<myArray.length; i++) {
 	        result += "<tr>";
 	        for(var j=0; j<myArray[i].length; j++){
-	            result += "<td>"+myArray[i][j]+"</td>";
+	            result += "<td id='"+i+''+j+"' onclick='test(this)'>"+myArray[i][j]+"</td>";
 	        }
 	        result += "</tr>";
 	    }
@@ -66,13 +66,24 @@ io.sockets.on('connection',function(socket){
 	});
 
 	socket.on('cellClicked', function(data){
-        for(var i in SOCKET_LIST){
-			SOCKET_LIST[i].emit('refreshTable', data);
-			} 
+		console.log(data);
+
+		 var x_coor = data.substring(0,1);
+   		 var y_coor= data.substring(1,2);
+    	console.log(x_coor);
+    	console.log(y_coor);
+
+			x[x_coor][y_coor] = 'X';
+			console.log(x[x_coor][y_coor]);
+
+			var d2 = makeTableHTML(x);
+
+			for(var i in SOCKET_LIST){
+			SOCKET_LIST[i].emit('refreshTable', d2);
+			}
+        
     });
 
-});
 
-setInterval(function(){
-	
-},1000/25);
+
+});
