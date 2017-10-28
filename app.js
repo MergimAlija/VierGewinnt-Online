@@ -12,16 +12,16 @@ app.get('/',function(req,res){
 app.use('/client', express.static(__dirname + '/client'));
 
 serv.listen(2000);
+//serv.maxConnections = 2;
+
 console.log("Server started");
 var SOCKET_LIST = {};
 
+
 //laedt das Modul und initialisiert alles aus der Library
 var io = require ('socket.io')(serv,{});
-io.sockets.on('connection',function(socket){
-	socket.id = Math.random();
-	SOCKET_LIST[socket.id] = socket;
 
-	//INITIALISIERUNG ARRAY
+//INITIALISIERUNG ARRAY
 	var x = new Array(5);
 	
 	for (var i = 0; i < 6; i++) {
@@ -33,6 +33,18 @@ io.sockets.on('connection',function(socket){
 			x[j][k] = j+''+k;
 		}
 	}
+
+
+var nicknames = [];
+
+io.sockets.on('connection',function(socket){
+	var connectedClients = io.engine.clientsCount;
+	socket.emit('playername', socket.id);
+
+	nicknames.push(socket.id)
+
+	console.log("ARRAY:"+nicknames);
+	SOCKET_LIST[socket.id] = socket;
 
 	//INITIALISIERUNG MACHE AUS ARRAY EINE TABELLE
 	function makeTableHTML(myArray) {
@@ -52,38 +64,42 @@ io.sockets.on('connection',function(socket){
 
 	for(var i in SOCKET_LIST){
 			SOCKET_LIST[i].emit('init', d);
-			SOCKET_LIST[i].emit('addToChat', 'Hello from Server with ID '+socket.id+'');
+			SOCKET_LIST[i].emit('playing', socket.id);
+			SOCKET_LIST[i].emit('totalplayer', connectedClients);
 			}
 
 	socket.on('disconnect', function(){
+		for(var i in SOCKET_LIST){
+			SOCKET_LIST[i].emit('addToChat', 'Ciao Player '+socket.id);
+			}
 		delete SOCKET_LIST[socket.id];
 	});
 
 	socket.on('sendMsgToServer',function(data){
 		for(var i in SOCKET_LIST){
-			SOCKET_LIST[i].emit('addToChat', data);
+			SOCKET_LIST[i].emit('addToChat', socket.id+": "+data);
 			}
 	});
 
-	socket.on('cellClicked', function(data){
-		console.log(data);
-
+	socket.on('cellClicked', function(data,data2){
 		 var x_coor = data.substring(0,1);
    		 var y_coor= data.substring(1,2);
-    	console.log(x_coor);
-    	console.log(y_coor);
+			console.log("data2:"+data2);
+			console.log("nickname0"+nicknames[0]);
 
-			x[x_coor][y_coor] = 'X';
-			console.log(x[x_coor][y_coor]);
-
-			var d2 = makeTableHTML(x);
-
-			for(var i in SOCKET_LIST){
-			SOCKET_LIST[i].emit('refreshTable', d2);
+			if(nicknames[0]==data2){
+				x[x_coor][y_coor] = "X";
+			}else{
+				x[x_coor][y_coor] = "O";
 			}
-        
+			
+   	
+   				io.sockets.emit('addToChat',socket.id+' has played');
+   				var d2 = makeTableHTML(x);
+				for(var i in SOCKET_LIST){
+				SOCKET_LIST[i].emit('refreshTable', d2);
+				
+				}
+   			
     });
-
-
-
 });
