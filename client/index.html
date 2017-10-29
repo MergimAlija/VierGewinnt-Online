@@ -2,11 +2,21 @@
 <head>
 	<style>
 		table{
-			border:1px;
+			width: 700px;
+			height:auto;
+			border: 1px solid black;
 		}
 		td{
+			text-align:center;
 			height: 50px;
 			width: 50px;
+			border: 1px solid black;
+		}
+		form{
+			border: 1px solid black;
+		}
+		div{
+			
 		}
 		</style>
 
@@ -14,16 +24,17 @@
 
 <!-- HTML !-->
 <body>
-<div id="chat-text" style="width:500px; height:100px;overflow-y:scroll">
-	<div> Hello!</div>
+
+<div>Your playername is <div id="playername"></div></div>
+<div> Total players connected: <div id="count"></div></div>
+
+<div id="chat-text" style="width:500px; height:100px;overflow-y:scroll"></div>
+<form id="chat-form">  <input id="chat-input" type="text" style="width:500px"></input> </form>
+
+<div id="spiel-feld">
 </div>
 
-<form id="chat-form"> 
-	<input id="chat-input" type="text" style="width:500px"></input>
-</form>
-
-
-<div id="demo"> </div>
+<button onclick="checkenZeile()">Button</button>
 
 
 
@@ -31,47 +42,55 @@
 
 <!-- SKRIPT !-->
 <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"> </script>
 <script>
+
+
+var socket = io();
+var socketid = socket.id;
+
+var test = function(td){
+    var tdId = td.id; 
+    var username = socket.id;
+    socket.emit('cellClicked',tdId, username);	 
+}
+
+var checkenZeile = function(check){
+	//alert("test");
+	socket.emit('checke',check);	 
+}
+
 	var chatText = document.getElementById('chat-text');
 	var chatInput = document.getElementById('chat-input');
 	var chatForm = document.getElementById('chat-form');
+	var spielFeld = document.getElementById('spiel-feld');
+    var table = document.getElementById("playground");
+	var count = document.getElementById("count");
 
-//INITIALISIERUNG ARRAY
-	var x = new Array(5);
-	
-	for (var i = 0; i < 6; i++) {
-		x[i] = new Array(7);
-	}
-
-	var count;
-	for (var j = 0; j < 6; j++) {
-		for (var k = 0; k < 7; k++) {
-			x[j][k] = "0";
-		}
-	}
-
-//INITIALISIERUNG MACHE AUS ARRAY EINE TABELLE
-	function makeTableHTML(myArray) {
-	    var result = "<table border=1>";
-	    for(var i=0; i<myArray.length; i++) {
-	        result += "<tr>";
-	        for(var j=0; j<myArray[i].length; j++){
-	            result += "<td>"+myArray[i][j]+"</td>";
-	        }
-	        result += "</tr>";
-	    }
-	    result += "</table>";
-	    return result;
-	}
-
-	document.getElementById("demo").innerHTML = makeTableHTML(x);
-	
-//KOMMUNIKATION MIT SERVER
-	var socket = io();
-
+	//KOMMUNIKATION MIT SERVER
+	socket.on('init',function(data){
+		spielFeld.innerHTML = data;
+	}); 
 	socket.on('addToChat',function(data){
 		chatText.innerHTML += '<div>' + data + '<div>';
 	});
+
+	socket.on('refreshTable',function(data){
+	spielFeld.innerHTML = data;
+	});
+
+	socket.on('playername',function(data){
+	playername.innerHTML = data;
+	});
+	
+	socket.on('totalplayer',function(data){
+	count.innerHTML = data;
+	});
+
+	socket.on('genug',function(data){
+	chatText.innerHTML = data;
+	});
+
 
 	chatForm.onsubmit = function(e){
 		e.preventDefault();
@@ -81,6 +100,9 @@
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 61627ba461f8868cf72315c287e8c4e4e4ccc3f2
 </script>
 
