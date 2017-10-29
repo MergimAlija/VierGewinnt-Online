@@ -100,15 +100,6 @@ io.sockets.on('connection',function(socket){
 				}
    			
     });
-
-<<<<<<< HEAD
-	}
-	for (var i in SOCKET_LIST){
-		socket.emit('newPositions',pack);
-	}
-},1000/25);
-
-=======
  
 /*
     	  	socket.on('checke',function(data){
@@ -141,4 +132,3 @@ io.sockets.on('connection',function(socket){
 	*/
 
 });
->>>>>>> 61627ba461f8868cf72315c287e8c4e4e4ccc3f2
