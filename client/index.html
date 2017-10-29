@@ -34,6 +34,8 @@
 <div id="spiel-feld">
 </div>
 
+<button onclick="checkenZeile()">Button</button>
+
 </body>
 
 <!-- SKRIPT !-->
@@ -51,12 +53,16 @@ var test = function(td){
     socket.emit('cellClicked',tdId, username);	 
 }
 
+var checkenZeile = function(check){
+	 socket.emit('checkenZeile',check);	 
+}
+
 	var chatText = document.getElementById('chat-text');
 	var chatInput = document.getElementById('chat-input');
 	var chatForm = document.getElementById('chat-form');
 	var spielFeld = document.getElementById('spiel-feld');
     var table = document.getElementById("playground");
-
+	var count = document.getElementById("count");
 
 	//KOMMUNIKATION MIT SERVER
 	socket.on('init',function(data){
@@ -74,6 +80,13 @@ var test = function(td){
 	playername.innerHTML = data;
 	});
 	
+	socket.on('totalplayer',function(data){
+	count.innerHTML = data;
+	});
+
+	socket.on('genug',function(data){
+	chatText.innerHTML = data;
+	});
 
 
 	chatForm.onsubmit = function(e){

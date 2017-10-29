@@ -12,7 +12,7 @@ app.get('/',function(req,res){
 app.use('/client', express.static(__dirname + '/client'));
 
 serv.listen(2000);
-//serv.maxConnections = 2;
+serv.maxConnections = 2;
 
 console.log("Server started");
 var SOCKET_LIST = {};
@@ -30,10 +30,9 @@ var io = require ('socket.io')(serv,{});
 
 	for (var j = 0; j < 6; j++) {
 		for (var k = 0; k < 7; k++) {
-			x[j][k] = j+''+k;
+			x[j][k] = '';
 		}
 	}
-
 
 var nicknames = [];
 
@@ -92,14 +91,31 @@ io.sockets.on('connection',function(socket){
 			}else{
 				x[x_coor][y_coor] = "O";
 			}
-			
-   	
    				io.sockets.emit('addToChat',socket.id+' has played');
    				var d2 = makeTableHTML(x);
+
 				for(var i in SOCKET_LIST){
 				SOCKET_LIST[i].emit('refreshTable', d2);
 				
 				}
    			
     });
+
+    	socket.on('checkeZeile',function(data){
+			for (var i = 0; i < x.length; i++) {
+			    var rowCount = 0;                   
+			    for (var j = 0; j < x[i].length; j++) {
+			        if (x[i][j] == 'X') {
+			            rowCount++;
+			        } else {
+			            rowCount = 0;
+			        }
+			        if (rowCount == 4) {
+			            console.log("won");
+			        }
+			    }
+			}
+	});
+
+
 });
