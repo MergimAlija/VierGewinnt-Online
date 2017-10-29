@@ -6,7 +6,7 @@ var serv = require('http').Server(app);
 
 app.get('/',function(req,res){
 
-	res.sendFile(__dirname + '/client/index.html');
+	res.sendFile(__dirname + '/client/indextemp.html');
 });
 
 app.use('/client', express.static(__dirname + '/client'));
@@ -101,44 +101,10 @@ io.sockets.on('connection',function(socket){
    			
     });
 
-<<<<<<< HEAD
-	}
-	for (var i in SOCKET_LIST){
-		socket.emit('newPositions',pack);
-	}
+ 
+
 },1000/25);
 
-=======
- 
-/*
-    	  	socket.on('checke',function(data){
-				
-				for(var i =0; i<6; i++){
-					for(var j =0; j<7; j++){
-						if(x[i][j]=='X' && x[i][j+1]=='X' && x[i][j+2]=='X' && x[i][j+3]=='X'){
-							console.log("won_spalte");
-						}
-					}
-				}
 
-					for(var i =0; i<6; i++){
-						for(var j =0; j<7; j++){
-							if(x[i][j]=='X' && x[i+1][j]=='X' && x[i+2][j]=='X' && x[i+3][j]=='X'){
-								console.log("won_zeile");
-							}
-					}
-				}
+}
 
-					for(var i =0; i<6; i++){
-						for(var j =0; j<7; j++){
-							if(x[i][j]=='X' && x[i+1][j+1]=='X' && x[i+2][j+2]=='X' && x[i+3][j+3]=='X'){
-								console.log("won_diagonal");
-							}
-					}
-				}
-		
-	});
-	*/
-
-});
->>>>>>> 61627ba461f8868cf72315c287e8c4e4e4ccc3f2

@@ -2,18 +2,131 @@
 <!DOCTYPE html>
 <html>
   <head>
-   
+
     <title>Vier Gewinnt</title>
 
     <link rel="stylesheet" type="text/css" href="../Template/stylesheet.css">
+<style>
+table{
+  border: 1px;
+}
 
-   
+ td, th {
+  border: 1px solid black;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+}
+
+#topbox{
+
+  height: 150px;
+  background-color: red;
+  float: auto;
+  z-index: 2;
+}
+
+#placeholder{
+  width: 450px;
+  height: 200px;
+  float: left;
+}
+
+#zug{
+  height: 30px;
+  width: 150px;
+  background-color: yellow;
+  margin-left: 600px;
+}
+
+#name1{
+  height: 30px;
+  width: 150px;
+  background-color: white;
+  margin-left: 20px;
+  float: left;
+}
+
+#name2{
+  height: 30px;
+  width: 150px;
+  background-color: white;
+  margin-left: 1240px;
+}
+
+form {
+  width: 20em;
+  margin: auto;
+  margin-top: 300px;
+}
+
+label.h2 {
+  font-weight: bold;
+  font-size: 150%;
+  width: 100%;
+  margin-bottom: 1em;
+}
+
+input,
+label {
+  float: left;
+  width: 40%;
+}
+
+input {
+  margin: 0 0 1em .2em;
+  padding: .2em .5em;
+  background-color: #fffbf0;
+  border: 1px solid #e7c157;
+}
+
+label.input {
+  text-align: right;
+  line-height: 1.5;
+}
+
+label.input::after {
+  content: ": ";
+}
+
+button {
+  margin-top: 1.5em;
+  width: 30%;
+  margin-left: 7.5em;
+}
+
+#signin{
+  z-index: 1; 
+  position: absolute;
+  
+}
+
+  </style>
+  
+
 
   </head>
 
  <body>
 
-  <div id="signin">
+
+
+  <div id="topbox">
+    
+    <div id="zug"></div>
+    <div id="name1">
+      <P name="player-1" id="player-1"></P>
+    </div>
+    <div id="name2"></div>
+
+  </div>
+
+  <div id="placeholder">
+    
+
+  </div>
+
+    <div id="signin">
   
   <form id="person">
     <label class="h2" form="person">Vier Gewinnt Spiel</label>
@@ -23,19 +136,6 @@
   </form>
 
 </div>
-
-  <div id="topbox">
-    
-    <div id="zug"></div>
-    <div id="name1"></div>
-    <div id="name2"></div>
-
-  </div>
-
-  <div id="placeholder">
-    
-
-  </div>
 
   <div id="midbox">
    <table id="tabelle">
@@ -95,13 +195,10 @@
       </tr>
     </table>
   </div>
-
-
-
-   
-
-    
-
     
   </body>
+
+    <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"> </script>
+
 </html>
