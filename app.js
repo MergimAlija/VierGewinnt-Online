@@ -42,7 +42,7 @@ io.sockets.on('connection',function(socket){
 
 	nicknames.push(socket.id)
 
-	console.log("ARRAY:"+nicknames);
+	//console.log("ARRAY:"+nicknames);
 	SOCKET_LIST[socket.id] = socket;
 
 	//INITIALISIERUNG MACHE AUS ARRAY EINE TABELLE
@@ -83,8 +83,8 @@ io.sockets.on('connection',function(socket){
 	socket.on('cellClicked', function(data,data2){
 		 var x_coor = data.substring(0,1);
    		 var y_coor= data.substring(1,2);
-			console.log("data2:"+data2);
-			console.log("nickname0"+nicknames[0]);
+			//console.log("data2:"+data2);
+			//console.log("nickname0"+nicknames[0]);
 
 			if(nicknames[0]==data2){
 				x[x_coor][y_coor] = "X";
@@ -101,21 +101,35 @@ io.sockets.on('connection',function(socket){
    			
     });
 
-    	socket.on('checkeZeile',function(data){
-			for (var i = 0; i < x.length; i++) {
-			    var rowCount = 0;                   
-			    for (var j = 0; j < x[i].length; j++) {
-			        if (x[i][j] == 'X') {
-			            rowCount++;
-			        } else {
-			            rowCount = 0;
-			        }
-			        if (rowCount == 4) {
-			            console.log("won");
-			        }
-			    }
-			}
-	});
+ 
+/*
+    	  	socket.on('checke',function(data){
+				
+				for(var i =0; i<6; i++){
+					for(var j =0; j<7; j++){
+						if(x[i][j]=='X' && x[i][j+1]=='X' && x[i][j+2]=='X' && x[i][j+3]=='X'){
+							console.log("won_spalte");
+						}
+					}
+				}
 
+					for(var i =0; i<6; i++){
+						for(var j =0; j<7; j++){
+							if(x[i][j]=='X' && x[i+1][j]=='X' && x[i+2][j]=='X' && x[i+3][j]=='X'){
+								console.log("won_zeile");
+							}
+					}
+				}
+
+					for(var i =0; i<6; i++){
+						for(var j =0; j<7; j++){
+							if(x[i][j]=='X' && x[i+1][j+1]=='X' && x[i+2][j+2]=='X' && x[i+3][j+3]=='X'){
+								console.log("won_diagonal");
+							}
+					}
+				}
+		
+	});
+	*/
 
 });
