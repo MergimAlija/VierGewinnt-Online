@@ -20,6 +20,8 @@
 		}
 		</style>
 
+	<link rel="stylesheet" type="text/css" href="../Template/stylesheet.css">
+
 </head>
 
 <!-- HTML !-->
@@ -35,8 +37,6 @@
 </div>
 
 <button onclick="checkenZeile()">Button</button>
-
-
 
 </body>
 
@@ -91,13 +91,15 @@ var checkenZeile = function(check){
 	chatText.innerHTML = data;
 	});
 
-
 	chatForm.onsubmit = function(e){
 		e.preventDefault();
 		socket.emit('sendMsgToServer',chatInput.value);
 		chatInput.value = '';
 	}
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 76e001fbfbf9cee0b21cf5a72704aa36c316052b
 </script>
 

@@ -100,11 +100,18 @@ io.sockets.on('connection',function(socket){
 				}
    			
     });
+<<<<<<< HEAD
 
+=======
+>>>>>>> 76e001fbfbf9cee0b21cf5a72704aa36c316052b
  
 
 },1000/25);
 
 
+<<<<<<< HEAD
 }
 
+=======
+});
+>>>>>>> 76e001fbfbf9cee0b21cf5a72704aa36c316052b
