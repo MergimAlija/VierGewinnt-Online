@@ -5,7 +5,6 @@ var app = express();
 var serv = require('http').Server(app);
 
 app.get('/',function(req,res){
-
 	res.sendFile(__dirname + '/client/index.html');
 });
 
@@ -39,7 +38,7 @@ var nicknames = [];
 io.sockets.on('connection',function(socket){
 	var connectedClients = io.engine.clientsCount;
 	socket.emit('playername', socket.id);
-
+	socket.emit('addToChat', 'Willkommen <i><b>'+socket.id+'</b></i>!');
 	nicknames.push(socket.id)
 
 	//console.log("ARRAY:"+nicknames);
@@ -83,15 +82,13 @@ io.sockets.on('connection',function(socket){
 	socket.on('cellClicked', function(data,data2){
 		 var x_coor = data.substring(0,1);
    		 var y_coor= data.substring(1,2);
-			//console.log("data2:"+data2);
-			//console.log("nickname0"+nicknames[0]);
-
+   		 
 			if(nicknames[0]==data2){
 				x[x_coor][y_coor] = "X";
 			}else{
-				x[x_coor][y_coor] = "O";
+				 x[x_coor][y_coor] = "O";
 			}
-   				io.sockets.emit('addToChat',socket.id+' has played');
+   				io.sockets.emit('addToChat',socket.id+' hat eben <b>'+x[x_coor][y_coor]+'</b> gespielt.');
    				var d2 = makeTableHTML(x);
 
 				for(var i in SOCKET_LIST){

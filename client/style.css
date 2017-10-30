@@ -1,0 +1,49 @@
+
+		td{
+			text-align:center;
+			height: 50px;
+			width: 50px;
+			border: 1px solid black;
+		}
+p{
+	float:left;
+	margin-top: 0;
+	margin-bottom: 0;
+}
+#container_obenlinks{
+	width:100%;
+}
+#playername{
+	float:left;
+	margin-left: 1em;
+}
+#count{
+	float:left;
+	margin-left: 1em;
+}
+}
+
+#chat{
+	border:1px solid black;
+}
+#chat-text{
+	width: 100%;
+	border: 1px solid black;
+	overflow-y:scroll
+}
+
+#chat-form{
+	width:100%;
+}
+
+#chat-input{
+	width:100%;
+	border: 1px solid black;
+}
+
+#playground{
+	width:100%;
+	height: auto;
+	border: 1px solid black;
+
+}

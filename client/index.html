@@ -1,72 +1,76 @@
-<!-- STYLE !-->
+<!-- HEAD !-->
 <head>
-	<style>
-		table{
-			width: 700px;
-			height:auto;
-			border: 1px solid black;
-		}
-		td{
-			text-align:center;
-			height: 50px;
-			width: 50px;
-			border: 1px solid black;
-		}
-		form{
-			border: 1px solid black;
-		}
-		div{
-			
-		}
-		</style>
-
-
+	<!-- STYLE !-->
+	<link rel="stylesheet" type="text/css" href="client/style.css">
+ 	<title>VierGewinnt-Online</title>
 </head>
 
-<!-- HTML !-->
+<!-- BODY !-->
 <body>
 
-<div>Your playername is <div id="playername"></div></div>
-<div> Total players connected: <div id="count"></div></div>
-
-<div id="chat-text" style="width:500px; height:100px;overflow-y:scroll"></div>
-<form id="chat-form">  <input id="chat-input" type="text" style="width:500px"></input> </form>
+<!-- Container -->
+<div id="container_obenlinks">
+	<p>Dein Spielername:   </p><div id="playername"></div>
+	<br>
+	<p>Verbundene Spieler: </p><div id="count"></div>
+</div>
 
 <div id="spiel-feld">
 </div>
 
-<button onclick="checkenZeile()">Button</button>
+<br style="padding-top:5em">
+<div id="chat">
+<form id="chat-form">
+	<p>Nachricht an alle Spieler senden (Entertaste):</p><input id="chat-input" type="text" placeholder="Ihre Nachricht!"></input> 
+</form>
+<div id="chat-text"></div>
+</div>
+
+<!-- Bei Klick auf den Button führe die Funktion checkenZeile aus -->
+<!-- <button onclick="checkenZeile()">Button</button> -->
 
 </body>
+<!--FOOTER -->
+<footer>
+	
+</footer>
 
-<!-- SKRIPT !-->
+<!-- SKRIPTS !-->
 <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"> </script>
 <script>
 
-
+//Verbinde zu Localhost
 var socket = io();
+
+//Verwende die socket.id als SpielerID
 var socketid = socket.id;
 
-var test = function(td){
-    var tdId = td.id; 
-    var username = socket.id;
-    socket.emit('cellClicked',tdId, username);	 
-}
-
-var checkenZeile = function(check){
-	//alert("test");
-	socket.emit('checke',check);	 
-}
-
+//Initialisierung der Container 
 	var chatText = document.getElementById('chat-text');
 	var chatInput = document.getElementById('chat-input');
 	var chatForm = document.getElementById('chat-form');
 	var spielFeld = document.getElementById('spiel-feld');
     var table = document.getElementById("playground");
 	var count = document.getElementById("count");
+//Sag mir welche Zelle angeklickt wird und schicke diese Zelle an den Server
+var test = function(td){
+    var tdId = td.id; 
+    var username = socket.id;
+    socket.emit('cellClicked',tdId, username);	 
+}
 
-	//KOMMUNIKATION MIT SERVER
+//Prüfe. ob der Spieler gewonnen hat
+var checkenZeile = function(check){
+	socket.emit('checke',check);	 
+}
+//Bei Absenden einer durch Submit versende Nachricht an den Server
+chatForm.onsubmit = function(e){
+		e.preventDefault();
+		socket.emit('sendMsgToServer',chatInput.value);
+		chatInput.value = '';
+	}
+//KOMMUNIKATION MIT SERVER
 	socket.on('init',function(data){
 		spielFeld.innerHTML = data;
 	}); 
@@ -89,11 +93,5 @@ var checkenZeile = function(check){
 	socket.on('genug',function(data){
 	chatText.innerHTML = data;
 	});
-
-	chatForm.onsubmit = function(e){
-		e.preventDefault();
-		socket.emit('sendMsgToServer',chatInput.value);
-		chatInput.value = '';
-	}
 </script>
 
