@@ -11,7 +11,7 @@ app.get('/',function(req,res){
 app.use('/client', express.static(__dirname + '/client'));
 
 serv.listen(2000);
-serv.maxConnections = 2;
+//serv.maxConnections = 2;
 
 console.log("Server started");
 var SOCKET_LIST = {};
