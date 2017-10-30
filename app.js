@@ -6,7 +6,7 @@ var serv = require('http').Server(app);
 
 app.get('/',function(req,res){
 
-	res.sendFile(__dirname + '/client/indextemp.html');
+	res.sendFile(__dirname + '/client/index.html');
 });
 
 app.use('/client', express.static(__dirname + '/client'));
@@ -97,21 +97,7 @@ io.sockets.on('connection',function(socket){
 				for(var i in SOCKET_LIST){
 				SOCKET_LIST[i].emit('refreshTable', d2);
 				
-				}
-   			
+				}	
     });
-<<<<<<< HEAD
 
-=======
->>>>>>> 76e001fbfbf9cee0b21cf5a72704aa36c316052b
- 
-
-},1000/25);
-
-
-<<<<<<< HEAD
-}
-
-=======
-});
->>>>>>> 76e001fbfbf9cee0b21cf5a72704aa36c316052b
+ });
