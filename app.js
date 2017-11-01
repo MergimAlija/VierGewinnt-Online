@@ -1,22 +1,16 @@
+//Reihenfolge wichtig für Server!
 var express = require('express');
-var io = require ('socket.io')(serv,{});
 var app = express();
 //Kreiiere einen Server (localhost) und hör auf den Port 2000
 var serv = require('http').Server(app);
-
+var io = require ('socket.io')(serv,{});
 //Routing
 app.get('/',function(req,res){
-	res.sendFile(__dirname + '/client/signon.html');
+	res.sendFile(__dirname + '/client/index.html');
 });
 
 app.use('/client', express.static(__dirname + '/client'));
-// parse application/x-www-form-urlencoded
-
-
-serv.listen(2000);
-//serv.maxConnections = 2;
-
-console.log("Server started");
+// parse application/x-www-form-urlencode
 var SOCKET_LIST = {};
 
 //INITIALISIERUNG ARRAY
@@ -107,3 +101,6 @@ io.sockets.on('connection',function(socket){
 	}
 
  });
+
+serv.listen(2000);
+//serv.maxConnections = 2;
