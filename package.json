@@ -1,0 +1,34 @@
+{
+  "name": "viergewinntonlinemultiplayer",
+  "version": "1.0.0",
+  "description": "Vier Gewinnt Online Multiplayer NodeJs ExpressJs SocketIo",
+  "main": "app.js",
+  "dependencies": {
+    "express": "^4.16.2",
+    "socket.io": "^2.0.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MergimAlija/VierGewinnt-Online.git"
+  },
+  "keywords": [
+    "nodejs",
+    "expressjs",
+    "socketio",
+    "vier",
+    "gewinnt",
+    "online",
+    "multiplayer",
+    "fourconnect"
+  ],
+  "author": "Mergim Alija",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MergimAlija/VierGewinnt-Online/issues"
+  },
+  "homepage": "https://github.com/MergimAlija/VierGewinnt-Online#readme"
+}

@@ -1,24 +1,23 @@
 var express = require('express');
+var io = require ('socket.io')(serv,{});
 var app = express();
-
 //Kreiiere einen Server (localhost) und hör auf den Port 2000
 var serv = require('http').Server(app);
 
+//Routing
 app.get('/',function(req,res){
-	res.sendFile(__dirname + '/client/index.html');
+	res.sendFile(__dirname + '/client/signon.html');
 });
 
 app.use('/client', express.static(__dirname + '/client'));
+// parse application/x-www-form-urlencoded
+
 
 serv.listen(2000);
 //serv.maxConnections = 2;
 
 console.log("Server started");
 var SOCKET_LIST = {};
-
-
-//laedt das Modul und initialisiert alles aus der Library
-var io = require ('socket.io')(serv,{});
 
 //INITIALISIERUNG ARRAY
 	var x = new Array(5);
@@ -34,15 +33,15 @@ var io = require ('socket.io')(serv,{});
 	}
 
 var nicknames = [];
+var users = [];
 
 io.sockets.on('connection',function(socket){
 	var connectedClients = io.engine.clientsCount;
 	socket.emit('playername', socket.id);
 	socket.emit('addToChat', 'Willkommen <i><b>'+socket.id+'</b></i>!');
-	nicknames.push(socket.id)
-
-	//console.log("ARRAY:"+nicknames);
+	nicknames.push(socket.id);
 	SOCKET_LIST[socket.id] = socket;
+	console.log(Object.keys(io.engine.clients));
 
 	//INITIALISIERUNG MACHE AUS ARRAY EINE TABELLE
 	function makeTableHTML(myArray) {
@@ -88,13 +87,23 @@ io.sockets.on('connection',function(socket){
 			}else{
 				 x[x_coor][y_coor] = "O";
 			}
-   				io.sockets.emit('addToChat',socket.id+' hat eben <b>'+x[x_coor][y_coor]+'</b> gespielt.');
    				var d2 = makeTableHTML(x);
-
-				for(var i in SOCKET_LIST){
+	   		for(var i in SOCKET_LIST){
 				SOCKET_LIST[i].emit('refreshTable', d2);
-				
-				}	
+			}
     });
+
+    	function lockTableHTML(myArray) {
+	    var result = "<table id='playground'>";
+	    for(var i=0; i<myArray.length; i++) {
+	        result += "<tr>";
+	        for(var j=0; j<myArray[i].length; j++){
+	            result += "<td id='"+i+''+j+"' >"+myArray[i][j]+"</td>";
+	        }
+	        result += "</tr>";
+	    }
+	    result += "</table>";
+	    return result;
+	}
 
  });
